@@ -19,7 +19,7 @@ RUN         apt-get update && \
             unzip \
             wget \
             python3.8-dev \
-            python3.8-setuptools && \
+            python3-setuptools && \
             python3.8 -m pip install pip --upgrade && \
             python3.8 -m pip install setuptools wheel pycurl ujson && \
             python3.8 -m pip install pytest slick-bitcoinrpc && \
