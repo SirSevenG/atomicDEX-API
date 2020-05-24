@@ -39,10 +39,11 @@ class MMnode:
 
     def gen_confile(self) -> str:
         base_conf = {
-            'gui': 'MM2GUI',
+            'gui': 'nogui',
             'netid': 9012,
             'userhome': os.environ.get('HOME'),
             'passphrase': self.passphrase,
+            'rpcip': '0.0.0.0',
             'rpc_password': self.password,
             'rpc_local_only': False,
             'rpc_port': self.rpcport,
