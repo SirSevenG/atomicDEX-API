@@ -13,15 +13,16 @@ RUN         apt-get update && \
             curl \
             libssl-dev \
             libcurl4-openssl-dev \
-            python3 \
+            python3.8 \
             python3-pip \
             zip \
             unzip \
             wget \
-            python3-setuptools && \
-            python3 -m pip install pip --upgrade && \
-            python3 -m pip install setuptools wheel pycurl ujson && \
-            python3 -m pip install pytest slick-bitcoinrpc && \
+            python3.8-dev \
+            python3.8-setuptools && \
+            python3.8 -m pip install pip --upgrade && \
+            python3.8 -m pip install setuptools wheel pycurl ujson && \
+            python3.8 -m pip install pytest slick-bitcoinrpc && \
             mkdir /atomicDEX/mmbin && \
             cd /atomicDEX/mmbin && \
             wget ${LINK} && \

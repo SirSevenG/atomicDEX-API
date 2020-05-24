@@ -1,8 +1,34 @@
-import os
 import ujson
 import subprocess
 from .mm2proxy import MMProxy
-from .test_utils import curldownload, randomstring
+import pycurl
+import os
+import sys
+import certifi
+
+
+def curldownload(path: str, url="https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins"):
+    """Download file from url to path with pycurl"""
+    fp = open(os.path.join(path), "wb")
+    curl = pycurl.Curl()
+    curl.setopt(pycurl.URL, url)
+    curl.setopt(pycurl.NOPROGRESS, 0)
+    curl.setopt(pycurl.FOLLOWLOCATION, 1)
+    curl.setopt(pycurl.MAXREDIRS, 5)
+    curl.setopt(pycurl.CONNECTTIMEOUT, 50)
+    curl.setopt(pycurl.TIMEOUT, 120)
+    curl.setopt(pycurl.FTP_RESPONSE_TIMEOUT, 600)
+    curl.setopt(pycurl.NOSIGNAL, 1)
+    curl.setopt(pycurl.WRITEDATA, fp)
+    curl.setopt(curl.CAINFO, certifi.where())
+    try:
+        curl.perform()
+    except pycurl.error:
+        import traceback
+        traceback.print_exc(file=sys.stderr)
+        sys.stderr.flush()
+    curl.close()
+    fp.close()
 
 
 class MMnode:
