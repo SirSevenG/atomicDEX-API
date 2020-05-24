@@ -30,6 +30,6 @@ RUN         apt-get update && \
 
 ENV         PATH=/atomicDEX/mmbin/mm2:${PATH}
 
-WORKDIR     /atomicDEX/qa
+WORKDIR     /atomicDEX/tests
 
 CMD         mm2
