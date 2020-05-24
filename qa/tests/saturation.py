@@ -45,6 +45,6 @@ def test_saturation():
     coin_a = 'WSG'
     coin_b = 'BSG'
     mode = os.environ.get('MODE')
-    start_mm2_node(log, mode)
+    start_mm2_node(log, mode, 'mm_b')
     proxies = init_connection("RPC_PASSWORD", ["mm_a", "mm_b", "mm_seed"])
     mainloop(proxies['mm_a'], proxies['mm_b'], coin_a, coin_b, log)

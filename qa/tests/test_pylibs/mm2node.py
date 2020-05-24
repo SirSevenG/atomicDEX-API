@@ -101,10 +101,10 @@ class MMnode:
             print(e)
             return False
 
-    def rpc_conn(self) -> MMProxy:
+    def rpc_conn(self, host='127.0.0.1') -> MMProxy:
         node_params_dictionary = {
             'userpass': "RPC_PASSWORD",  # userpass to be used in jsonrpc
-            'rpchost': '127.0.0.1',
+            'rpchost': host,
             'rpcport': self.rpcport
         }
         proxy = MMProxy(node_params_dictionary, timeout=120)

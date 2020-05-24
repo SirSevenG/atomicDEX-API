@@ -35,7 +35,7 @@ def check_proxy_connection(mmproxy: MMProxy) -> bool:
     return True
 
 
-def start_mm2_node(log: logging, mode: str):
+def start_mm2_node(log: logging, mode: str, host='127.0.0.1'):
     """Start mm2 node in selected mode and enable coins"""
     mm_nodes = ['mm_a', 'mm_b', 'mm_seed']
     electrums_a = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
@@ -49,7 +49,7 @@ def start_mm2_node(log: logging, mode: str):
                   test_params.get('seednodes'), bindir, test_params.get(mode).get('ntype'))
     log.info("starting mm2 node as: %s", mode)
     node.start()
-    proxy = node.rpc_conn()
+    proxy = node.rpc_conn(host)
     assert check_proxy_connection(proxy)
     enable_electrums(proxy, electrums_a, electrums_b, coin_a, coin_b)
     log.info("mm2 node connected, coins enabled")
