@@ -28,7 +28,7 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.20
-    command: ["python3", "startup.py"]
+    command: ["python3.8", "startup.py"]
 
   mm_b:
     build:
@@ -48,7 +48,7 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.22
-    command: ["python3", "-m", "pytest", "saturation.py", "-sv"]
+    command: ["python3.8", "-m", "pytest", "saturation.py", "-sv"]
 
   mm_seed:
     build:
@@ -57,7 +57,7 @@ services:
         TAG: "beta-2.0.1979"
         CHASH: "cc20999bc"
     environment:
-      MODE: "seed"
+      MODE: "seednode"
     expose:
       - "43803"
       - "41613"
@@ -68,4 +68,4 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.18
-    command: ["python3", "startup.py"]
+    command: ["python3.8", "startup.py"]
