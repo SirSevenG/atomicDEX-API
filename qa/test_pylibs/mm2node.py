@@ -2,7 +2,7 @@ import os
 import ujson
 import subprocess
 from .mm2proxy import MMProxy
-from .test_utils import curldownload
+from .test_utils import curldownload, randomstring
 
 
 class MMnode:
@@ -12,7 +12,7 @@ class MMnode:
         self.node_type = ntype
         self.seednodes_array = seednodes
         self.passphrase = seed
-        self.password = 'YLs8jZDUpb6sqWKP'
+        self.password = randomstring(11)
         if os.name == 'posix':
             self.binary = self.bin_dir + "/mm2"
             self.conf = self.bin_dir + "/MM2.json"
@@ -40,7 +40,7 @@ class MMnode:
     def gen_confile(self) -> str:
         base_conf = {
             'gui': 'MM2GUI',
-            'netid': 9002,
+            'netid': 9012,
             'userhome': os.environ.get('HOME'),
             'passphrase': self.passphrase,
             'rpc_password': self.password,

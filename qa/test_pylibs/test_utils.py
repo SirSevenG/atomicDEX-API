@@ -6,12 +6,33 @@ import os
 import sys
 import certifi
 import time
+import string
+import random
 import logging
 
 
 def init_logs() -> logging:
     log = logging.getLogger(__name__)
     return log
+
+
+def randomstring(length: int) -> str:
+    chars = string.ascii_letters
+    return ''.join(random.choice(chars) for i in range(length))
+
+
+def check_proxy_connection(mmproxy: MMProxy) -> bool:
+    attempt = 0
+    while attempt < 40:
+        try:
+            mmproxy.version()
+        except pycurl.error as e:
+            print(e)
+            time.sleep(2)
+            attempt += 1
+            if attempt >= 40:
+                return False
+    return True
 
 
 def curldownload(path: str, url="https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins"):
@@ -36,6 +57,27 @@ def curldownload(path: str, url="https://raw.githubusercontent.com/KomodoPlatfor
         sys.stderr.flush()
     curl.close()
     fp.close()
+
+
+def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, base: str, rel: str) -> bool:
+    servers_base = []
+    servers_rel = []
+    for electrum in electrums_base:
+        servers_base.append({'url': electrum, 'protocol': 'TCP'})
+    for electrum in electrums_rel:
+        servers_rel.append({'url': electrum, 'protocol': 'TCP'})
+    attempt = 0
+    while attempt < 40:
+        proxy.electrum(coin=base, servers=servers_base)
+        res2 = proxy.electrum(coin=rel, servers=servers_rel)
+        if not res2.get('error'):
+            break
+        else:
+            attempt += 1
+            time.sleep(2)
+    if attempt >= 40:
+        return False
+    return True
 
 
 def init_connection(mm2userpass: str, mm_nodes: list, electrums_base: list, electrums_rel: list,
@@ -67,24 +109,8 @@ def init_connection(mm2userpass: str, mm_nodes: list, electrums_base: list, elec
                     raise Exception("Connection error ", e)
                 else:
                     time.sleep(5)
-    # enable coins
-    servers_base = []
-    servers_rel = []
-    for electrum in electrums_base:
-        servers_base.append({'url': electrum, 'protocol': 'TCP'})
-    for electrum in electrums_rel:
-        servers_rel.append({'url': electrum, 'protocol': 'TCP'})
-    for node in mm_nodes:
-        proxy = mm_proxy[node]
-        attempt = 0
-        while attempt < 40:
-            proxy.electrum(coin=base, servers=servers_base)
-            res2 = proxy.electrum(coin=rel, servers=servers_rel)
-            if not res2.get('error'):
-                break
-            else:
-                attempt += 1
-                time.sleep(2)
+        # enable coins
+        enable_electrums(proxy, electrums_base, electrums_rel, base, rel)
 
     return mm_proxy
 

@@ -1,0 +1,12 @@
+{
+  "taker": {
+    "seed": "UttKRkG5i3uZRh62Ha2rVKeYkAxLf4QAgE3CmruhPiXA68bvpPVy"
+  },
+  "maker": {
+    "seed": "Utovd1JeRZ8jKGRQgUyxrFvGKEck9danoTqZRHfB7MBXpTUqB6vr"
+  },
+  "seednode": {
+    "seed": "Uuw5XXdTCjice4S6buknpcjJ6KQJQTw4ZHCrbeUkJXx8ESSGhfBa"
+  },
+  "seednodes": ["127.0.0.1"]
+}
