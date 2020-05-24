@@ -38,7 +38,7 @@ class MMnode:
         self.node_type = ntype
         self.seednodes_array = seednodes
         self.passphrase = seed
-        self.password = randomstring(11)
+        # self.password = tmp disabled
         if os.name == 'posix':
             self.binary = self.bin_dir + "/mm2"
             self.conf = self.bin_dir + "/MM2.json"
@@ -103,7 +103,7 @@ class MMnode:
 
     def rpc_conn(self) -> MMProxy:
         node_params_dictionary = {
-            'userpass': self.password,  # userpass to be used in jsonrpc
+            'userpass': "RPC_PASSWORD",  # userpass to be used in jsonrpc
             'rpchost': '127.0.0.1',
             'rpcport': self.rpcport
         }
