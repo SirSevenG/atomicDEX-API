@@ -1,0 +1,65 @@
+version: '3'
+
+networks:
+
+  mm:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.23.0.0/24"
+
+services:
+
+  mm_a:
+    build:
+      context: .
+      args:
+        TAG: "beta-2.0.1979"
+        CHASH: "cc20999bc"
+    expose:
+      - "43803"
+      - "41613"
+      - "7783"
+      - "7793"
+      - "7803"
+      - "80"
+    networks:
+      mm:
+        ipv4_address: 172.23.0.20
+    command: ["./start_saturation.sh"]
+
+  mm_b:
+    build:
+      context: .
+      args:
+        TAG: "beta-2.0.1979"
+        CHASH: "cc20999bc"
+    expose:
+      - "43803"
+      - "41613"
+      - "7783"
+      - "7793"
+      - "7803"
+      - "80"
+    networks:
+      mm:
+        ipv4_address: 172.23.0.22
+    command: ["./start_saturation.sh"]
+
+  mm_seed:
+    build:
+      context: .
+      args:
+        TAG: "beta-2.0.1979"
+        CHASH: "cc20999bc"
+    expose:
+      - "43803"
+      - "41613"
+      - "7783"
+      - "7793"
+      - "7803"
+      - "80"
+    networks:
+      mm:
+        ipv4_address: 172.23.0.18
+    command: ["./start_saturation.sh"]
