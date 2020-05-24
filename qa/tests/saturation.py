@@ -1,8 +1,6 @@
 from test_pylibs.test_utils import init_logs, get_orders_amount, check_saturation, enable_electrums,\
-                                   check_proxy_connection
-from test_pylibs.mm2node import MMnode
+                                   check_proxy_connection, start_mm2_node, init_connection
 import time
-import ujson
 import os
 import pytest
 
@@ -43,58 +41,10 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
 
 
 def test_saturation():
-    """proxy: MMProxy, electrums_base: list, electrums_rel: list, base: str, rel: str"""
     log = init_logs()
-    mm_nodes = ['127.0.0.1:9901', '127.0.0.1:9902', '127.0.0.1:9903']
-    electrums_a = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
-    electrums_b = ["node.sirseven.me:35001", "node.sirseven.me:45001"]
     coin_a = 'WSG'
     coin_b = 'BSG'
-    try:
-        bindir_t = os.environ['BINDIRT']
-        bindir_m = os.environ['BINDIRM']
-        bindir_s = os.environ['BINDIRS']
-    except KeyError:
-        default_target_path = os.path.abspath(os.path.join(os.curdir, os.pardir, 'target', 'debug'))
-        assert default_target_path
-        bindir_m = os.path.join(default_target_path, 'maker')
-        bindir_t = os.path.join(default_target_path, 'taker')
-        bindir_s = os.path.join(default_target_path, 'seed')
-        try:
-            os.mkdir(bindir_m)
-            os.mkdir(bindir_s)
-            os.mkdir(bindir_t)
-        except FileExistsError:
-            pass
-        if os.name == 'posix':
-            bin_mm = "/mm2"
-            command = 'cp'
-        else:
-            bin_mm = "\\mm2.exe"
-            command = 'copy'
-        call = command + ' ' + default_target_path + bin_mm + ' ' + bindir_t + bin_mm
-        os.system(call)
-        call = command + ' ' + default_target_path + bin_mm + ' ' + bindir_m + bin_mm
-        os.system(call)
-        call = command + ' ' + default_target_path + bin_mm + ' ' + bindir_s + bin_mm
-        os.system(call)
-    with open('saturation.json') as j:
-        test_params = ujson.load(j)
-    taker = MMnode(test_params.get('taker').get('seed'), '9901', test_params.get('seednodes'), bindir_t, 0)
-    maker = MMnode(test_params.get('maker').get('seed'), '9902', test_params.get('seednodes'), bindir_m, 0)
-    seed = MMnode(test_params.get('seednode').get('seed'), '9903', test_params.get('seednodes'), bindir_s, 1)
-    seed.start()
-    seed_proxy = seed.rpc_conn()
-    assert check_proxy_connection(seed_proxy)
-    enable_electrums(seed_proxy, electrums_a, electrums_b, coin_a, coin_b)
-    taker.start()
-    maker.start()
-    log.info("Connecting to mm2 nodes")
-    taker_proxy = taker.rpc_conn()
-    maker_proxy = maker.rpc_conn()
-    assert check_proxy_connection(maker_proxy)
-    enable_electrums(maker_proxy, electrums_a, electrums_b, coin_a, coin_b)
-    assert check_proxy_connection(taker_proxy)
-    enable_electrums(taker_proxy, electrums_a, electrums_b, coin_a, coin_b)
-    log.info("mm2 nodes connected, coins enabled")
-    mainloop(maker_proxy, taker_proxy, coin_a, coin_b, log)
+    mode = os.environ.get('MODE')
+    start_mm2_node(log, mode)
+    proxies = init_connection("RPC_PASSWORD", ["mm_a", "mm_b", "mm_seed"])
+    mainloop(proxies['mm_a'], proxies['mm_b'], coin_a, coin_b, log)

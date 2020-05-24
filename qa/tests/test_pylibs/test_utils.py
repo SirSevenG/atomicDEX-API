@@ -1,4 +1,5 @@
 from .mm2proxy import MMProxy
+from .mm2node import MMnode
 from slickrpc import Proxy as KMDProxy
 from pycurl import error as perror
 import pycurl
@@ -8,6 +9,7 @@ import certifi
 import time
 import string
 import random
+import ujson
 import logging
 
 
@@ -22,6 +24,7 @@ def randomstring(length: int) -> str:
 
 
 def check_proxy_connection(mmproxy: MMProxy) -> bool:
+    """Test RPC server availability"""
     attempt = 0
     while attempt < 40:
         try:
@@ -33,6 +36,26 @@ def check_proxy_connection(mmproxy: MMProxy) -> bool:
             if attempt >= 40:
                 return False
     return True
+
+
+def start_mm2_node(log: logging, mode: str):
+    """Start mm2 node in selected mode and enable coins"""
+    mm_nodes = ['mm_a', 'mm_b', 'mm_seed']
+    electrums_a = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
+    electrums_b = ["node.sirseven.me:35001", "node.sirseven.me:45001"]
+    coin_a = 'WSG'
+    coin_b = 'BSG'
+    bindir = '/atomicDEX/mmbin'
+    with open('saturation.json') as j:
+        test_params = ujson.load(j)
+    node = MMnode(test_params.get(mode).get('seed'), '7783',
+                  test_params.get('seednodes'), bindir, test_params.get(mode).get('ntype'))
+    log.info("starting mm2 node as: %s", mode)
+    node.start()
+    proxy = node.rpc_conn()
+    assert check_proxy_connection(proxy)
+    enable_electrums(proxy, electrums_a, electrums_b, coin_a, coin_b)
+    log.info("mm2 node connected, coins enabled")
 
 
 def curldownload(path: str, url="https://raw.githubusercontent.com/KomodoPlatform/coins/master/coins"):
@@ -60,6 +83,7 @@ def curldownload(path: str, url="https://raw.githubusercontent.com/KomodoPlatfor
 
 
 def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, base: str, rel: str) -> bool:
+    """Enable coins on mm2 node with electrum API method"""
     servers_base = []
     servers_rel = []
     for electrum in electrums_base:
@@ -80,9 +104,8 @@ def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, 
     return True
 
 
-def init_connection(mm2userpass: str, mm_nodes: list, electrums_base: list, electrums_rel: list,
-                    base: str, rel: str) -> dict:
-    """Creates MM2 proxies, enables base and rel coins on each node"""
+def init_connection(mm2userpass: str, mm_nodes: list) -> dict:
+    """Creates MM2 proxies"""
     mm_proxy = {}
     for node in mm_nodes:  # connect to all mm nodes
         node_params_dictionary = {
@@ -109,9 +132,6 @@ def init_connection(mm2userpass: str, mm_nodes: list, electrums_base: list, elec
                     raise Exception("Connection error ", e)
                 else:
                     time.sleep(5)
-        # enable coins
-        enable_electrums(proxy, electrums_base, electrums_rel, base, rel)
-
     return mm_proxy
 
 

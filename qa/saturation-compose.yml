@@ -16,6 +16,8 @@ services:
       args:
         TAG: "beta-2.0.1979"
         CHASH: "cc20999bc"
+    environment:
+      MODE: "maker"
     expose:
       - "43803"
       - "41613"
@@ -26,7 +28,7 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.20
-    command: ["./start_saturation.sh"]
+    command: ["python3", "startup.py"]
 
   mm_b:
     build:
@@ -34,6 +36,8 @@ services:
       args:
         TAG: "beta-2.0.1979"
         CHASH: "cc20999bc"
+    environment:
+      MODE: "maker"
     expose:
       - "43803"
       - "41613"
@@ -44,7 +48,7 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.22
-    command: ["./start_saturation.sh"]
+    command: ["python3", "-m", "pytest", "saturation.py", "-sv"]
 
   mm_seed:
     build:
@@ -52,6 +56,8 @@ services:
       args:
         TAG: "beta-2.0.1979"
         CHASH: "cc20999bc"
+    environment:
+      MODE: "seed"
     expose:
       - "43803"
       - "41613"
@@ -62,4 +68,4 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.18
-    command: ["./start_saturation.sh"]
+    command: ["python3", "startup.py"]

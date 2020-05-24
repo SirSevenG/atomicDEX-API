@@ -44,7 +44,7 @@ class MMnode:
             'userhome': os.environ.get('HOME'),
             'passphrase': self.passphrase,
             'rpcip': '0.0.0.0',
-            'rpc_password': self.password,
+            'rpc_password': "RPC_PASSWORD",  # self.password,
             'rpc_local_only': False,
             'rpc_port': self.rpcport,
         }
