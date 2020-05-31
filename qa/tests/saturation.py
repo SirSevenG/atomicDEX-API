@@ -41,10 +41,14 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
 
 
 def test_saturation():
+    """proxy: MMProxy, electrums_base: list, electrums_rel: list, base: str, rel: str"""
     log = init_logs()
     coin_a = 'WSG'
     coin_b = 'BSG'
     mode = os.environ.get('MODE')
     start_mm2_node(log, mode, 'mm_b')
     proxies = init_connection("RPC_PASSWORD", ["mm_a", "mm_b", "mm_seed"])
+    electrums_base = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
+    electrums_rel = ["node.sirseven.me:35001", "node.sirseven.me:45001"]
+    enable_electrums(proxies['mm_a'], electrums_base, electrums_rel, coin_a, coin_b)
     mainloop(proxies['mm_a'], proxies['mm_b'], coin_a, coin_b, log)
