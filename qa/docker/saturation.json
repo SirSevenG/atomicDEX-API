@@ -14,5 +14,5 @@
     "ntype": 1,
     "defhost": "mm_seed"
   },
-  "seednodes": ["mm_seed"]
+  "seednodes": ["172.23.0.18"]
 }

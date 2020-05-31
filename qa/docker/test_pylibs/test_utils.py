@@ -37,7 +37,6 @@ def check_proxy_connection(mmproxy: MMProxy) -> bool:
 
 def start_mm2_node(log: logging, mode: str, host='127.0.0.1'):
     """Start mm2 node in selected mode and enable coins"""
-    mm_nodes = ['mm_a', 'mm_b', 'mm_seed']
     electrums_a = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
     electrums_b = ["node.sirseven.me:35001", "node.sirseven.me:45001"]
     coin_a = 'WSG'
