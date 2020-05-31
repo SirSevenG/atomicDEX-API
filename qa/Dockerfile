@@ -1,6 +1,6 @@
 FROM        ubuntu:18.04
 
-COPY        . /atomicDEX
+COPY        docker /atomicDEX/mmbin
 
 ARG         TAG=beta-2.0.1979
 ARG         CHASH=cc20999bc
@@ -23,7 +23,6 @@ RUN         apt-get update && \
             python3.8 -m pip install pip --upgrade && \
             python3.8 -m pip install setuptools wheel pycurl ujson certifi && \
             python3.8 -m pip install pytest slick-bitcoinrpc && \
-            mkdir /atomicDEX/mmbin && \
             cd /atomicDEX/mmbin && \
             wget ${LINK} && \
             export ARCHIVE=`ls | grep mm2` && \
@@ -31,6 +30,6 @@ RUN         apt-get update && \
 
 ENV         PATH=/atomicDEX/mmbin/mm2:${PATH}
 
-WORKDIR     /atomicDEX/tests
+WORKDIR     /atomicDEX/mmbin
 
 CMD         mm2
