@@ -14,7 +14,7 @@ RUN         apt-get update && \
             libssl-dev \
             libcurl4-openssl-dev \
             zip \
-            unzip
+            unzip && \
             cd /atomicDEX/mmbin && \
             wget ${LINK} && \
             export ARCHIVE=`ls | grep mm2` && \
