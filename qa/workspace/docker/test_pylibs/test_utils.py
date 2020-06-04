@@ -74,8 +74,8 @@ def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, 
             break
         else:
             attempt += 1
-            time.sleep(2)
-    if attempt >= 40:
+            time.sleep(10)
+    if attempt >= 10:
         return False
     return True
 
