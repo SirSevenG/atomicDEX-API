@@ -59,9 +59,9 @@ def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, 
     servers_base = []
     servers_rel = []
     for electrum in electrums_base:
-        servers_base.append({'url': electrum, 'protocol': 'TCP'})
+        servers_base.append({'url': electrum, 'protocol': 'TCP', "disable_cert_verification": 'true'})
     for electrum in electrums_rel:
-        servers_rel.append({'url': electrum, 'protocol': 'TCP'})
+        servers_rel.append({'url': electrum, 'protocol': 'TCP', "disable_cert_verification": 'true'})
     attempt = 0
     print(servers_base)
     print(servers_rel)
