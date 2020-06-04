@@ -63,6 +63,8 @@ def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, 
     for electrum in electrums_rel:
         servers_rel.append({'url': electrum, 'protocol': 'TCP'})
     attempt = 0
+    print(servers_base)
+    print(servers_rel)
     while attempt < 40:
         res = proxy.electrum(coin=base, servers=servers_base)
         res2 = proxy.electrum(coin=rel, servers=servers_rel)
