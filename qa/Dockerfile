@@ -14,6 +14,7 @@ RUN         apt-get update && \
             libssl-dev \
             libcurl4-openssl-dev \
             zip \
+            wget \
             unzip && \
             cd /atomicDEX/mmbin && \
             wget ${LINK} && \
