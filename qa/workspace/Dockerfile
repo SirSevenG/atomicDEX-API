@@ -9,7 +9,7 @@ ENV         PACKS="python3.8 \
             wget \
             nano \
             python3-setuptools \
-            python3-dev \
+            python3.8-dev \
             python3-pip \
             curl \
             libcurl4-openssl-dev \
