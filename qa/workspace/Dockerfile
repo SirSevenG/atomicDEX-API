@@ -20,7 +20,6 @@ RUN         apt-get update && \
             python3 -m pip install --upgrade pip && \
             python3 -m pip install -r /workdir/reqs.txt
 
-USER        swapper
 WORKDIR     /workdir
 
 CMD ["python3", "-m", "pytest", "saturation.py", "-s", "-vv"]
