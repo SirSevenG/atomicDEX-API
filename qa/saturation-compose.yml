@@ -28,6 +28,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.20
+    depends_on:
+      - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
 
   mm_b:
@@ -48,7 +50,10 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.22
-    command: ["python3.8", "-m", "pytest", "saturation.py", "-sv"]
+    depends_on:
+      - mm_a
+      - mm_seed
+    command: ["python3.8", "-m", "pytest", "saturation.py", "-s", "-vv"]
 
   mm_seed:
     build:
