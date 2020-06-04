@@ -10,6 +10,16 @@ networks:
 
 services:
 
+  workspace:
+    build: ./workspace
+    networks:
+      mm:
+        ipv4_address: 172.23.0.10
+    depends_on:
+      - mm_a
+      - mm_b
+    command: ["python3.8", "-m", "pytest", "saturation.py", "-s", "-vv"]
+
   mm_a:
     build:
       context: .
@@ -51,9 +61,8 @@ services:
       mm:
         ipv4_address: 172.23.0.22
     depends_on:
-      - mm_a
       - mm_seed
-    command: ["python3.8", "-m", "pytest", "saturation.py", "-s", "-vv"]
+    command: ["/bin/bash", "./start_maker.sh"]
 
   mm_seed:
     build:

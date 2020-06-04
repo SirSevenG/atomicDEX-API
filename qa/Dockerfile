@@ -13,22 +13,13 @@ RUN         apt-get update && \
             curl \
             libssl-dev \
             libcurl4-openssl-dev \
-            python3.8 \
-            python3-pip \
             zip \
-            unzip \
-            wget \
-            python3.8-dev \
-            python3-setuptools && \
-            python3.8 -m pip install pip --upgrade && \
-            python3.8 -m pip install setuptools wheel pycurl ujson certifi && \
-            python3.8 -m pip install pytest slick-bitcoinrpc && \
+            unzip
             cd /atomicDEX/mmbin && \
             wget ${LINK} && \
             export ARCHIVE=`ls | grep mm2` && \
-            unzip ${ARCHIVE}
-
-ENV         PATH=/atomicDEX/mmbin/mm2:${PATH}
+            unzip ${ARCHIVE} && \
+            export PATH=/atomicDEX/mmbin/mm2:${PATH}
 
 WORKDIR     /atomicDEX/mmbin
 

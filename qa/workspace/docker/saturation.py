@@ -47,7 +47,7 @@ def test_saturation():
     coin_b = 'BSG'
     mode = os.environ.get('MODE')
     log.info("Connecting nodes")
-    start_mm2_node(log, mode, '127.0.0.1')
+    start_mm2_node(log, mode, '172.23.0.22')
     log.info("Enabling coins")
     proxies = init_connection("RPC_PASSWORD", ["172.23.0.20", "172.23.0.22", "172.23.0.18"])
     electrums_base = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
