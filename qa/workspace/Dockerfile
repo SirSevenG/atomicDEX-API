@@ -7,6 +7,7 @@ COPY        docker/ /workdir
 
 ENV         PACKS="python3.8 \
             wget \
+            dnsutils \
             nano \
             python3-setuptools \
             python3.8-dev \
