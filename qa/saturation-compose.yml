@@ -28,6 +28,7 @@ services:
         CHASH: "cc20999bc"
     environment:
       MODE: "maker"
+      PASSPHRASE: "UvweTu63i8AvShpCBSjJNdVuKHqXLyBuEz3kfb6TDqouXP4AADhK"
     expose:
       - "43803"
       - "41613"
@@ -50,6 +51,7 @@ services:
         CHASH: "cc20999bc"
     environment:
       MODE: "maker"
+      PASSPHRASE: "Uuw5XXdTCjice4S6buknpcjJ6KQJQTw4ZHCrbeUkJXx8ESSGhfBa"
     expose:
       - "43803"
       - "41613"
@@ -72,6 +74,7 @@ services:
         CHASH: "cc20999bc"
     environment:
       MODE: "seednode"
+      PASSPHRASE: "UvQP3mudmYWjprww1YZn7SgVovvx3kPkKnXnHmPaE4uwYASzGnDF"
     expose:
       - "43803"
       - "41613"
