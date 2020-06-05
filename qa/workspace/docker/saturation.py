@@ -45,12 +45,12 @@ def test_saturation():
     log = init_logs()
     coin_a = 'WSG'
     coin_b = 'BSG'
+    mm_nodes = ["172.23.0.20", "172.23.0.22", "172.23.0.18"]
     print("Connecting nodes")
-    proxies = init_connection("RPC_PASSWORD", ["172.23.0.20", "172.23.0.22", "172.23.0.18"])
+    proxies = init_connection("RPC_PASSWORD", mm_nodes)
     electrums_base = ["node.sirseven.me:15001", "node.sirseven.me:25001"]
     electrums_rel = ["node.sirseven.me:15005", "node.sirseven.me:25005"]
     print("Enabling coins")
-    enable_electrums(proxies['172.23.0.20'], electrums_base, electrums_rel, coin_a, coin_b)
-    enable_electrums(proxies['172.23.0.22'], electrums_base, electrums_rel, coin_a, coin_b)
-    enable_electrums(proxies['172.23.0.18'], electrums_base, electrums_rel, coin_a, coin_b)
+    for node in mm_nodes:
+        enable_electrums(proxies[node], electrums_base, electrums_rel, coin_a, coin_b)
     mainloop(proxies['172.23.0.20'], proxies['172.23.0.22'], coin_a, coin_b, log)
