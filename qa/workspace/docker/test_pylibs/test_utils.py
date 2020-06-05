@@ -114,6 +114,7 @@ def init_connection(mm2userpass: str, mm_nodes: list) -> dict:
 def get_orders_amount(proxy: MMProxy, base: str, rel: str) -> dict:
     """Get amount of orders from node"""
     res = proxy.orderbook(base=base, rel=rel)
+    print(res)
     asks = res.get('numasks')
     bids = res.get('numbids')
     orders = {
