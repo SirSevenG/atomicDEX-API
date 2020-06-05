@@ -16,11 +16,11 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         print("Clearing up previous orders in %s s", str(time_sleep))
         maker.cancel_all_orders(cancel_by={'type': 'All'})  # reset orders
         time.sleep(time_sleep)
-        log.info("New iteration, orders to broadcast: %s", str(orders_broadcast))
+        print("New iteration, orders to broadcast: %s", str(orders_broadcast))
         for i in range(orders_broadcast):
-            log.debug("Order placing num: %s", str(i + 1))
+            print("Order placing num: %s", str(i + 1))
             res = maker.setprice(base=coin_a, rel=coin_b, price='0.1', volume='1', cancel_previous=False)
-            log.debug("Response: %s", str(res))
+            print("Response: %s", str(res))
             assert res.get('result').get('uuid')
             time.sleep(1)
         time.sleep(time_sleep)  # time to propagate orders
