@@ -7,7 +7,7 @@ import pytest
 def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
     time_sleep = 45
     orders_broadcast = 10
-    orders_current = 0
+    orders_current = 1
     check = True  # init "pass" value
     log.info("Entering main test loop")
     log.debug("Clearing up previous orders in %s s", str(time_sleep))
