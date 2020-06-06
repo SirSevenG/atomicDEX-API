@@ -10,9 +10,11 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
     orders_current = 0
     check = True  # init "pass" value
     log.info("Entering main test loop")
+    log.debug("Clearing up previous orders in %s s", str(time_sleep))
+    maker.cancel_all_orders(cancel_by={'type': 'All'})  # reset orders
+    taker.cancel_all_orders(cancel_by={'type': 'All'})
+    time.sleep(time_sleep)
     while check:
-        log.debug("Clearing up previous orders in %s s", str(time_sleep))
-        time.sleep(time_sleep)
         for i in range(orders_broadcast):
             orders_current += 1
             # gen new price and volume values for each swap
@@ -32,7 +34,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         check_mt = check_saturation(maker_orders, taker_orders)
         check_str = 'passed' if check_mt else 'failed'  # bool can not be explicitly converted to str
         log.info("Maker to Taker orders amount check: %s", str(check_str))
-        check_st = check_saturation(taker_orders, orders_broadcast)
+        check_st = check_saturation(taker_orders, orders_current)
         check_str = 'passed' if check_st else 'failed'
         log.info("Taker to Created orders amount check: %s", str(check_str))
         log.debug("Current total amount of broadcasted orders : %s", str(orders_current))
