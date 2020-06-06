@@ -46,7 +46,7 @@ def test_saturation():
     log = init_logs()
     coin_a = 'WSG'
     coin_b = 'BSG'
-    mm_nodes = ["mm_a", "mm_b", "mm_seed_a", "mm_seed_b"]
+    mm_nodes = ["mm_a", "mm_b", "mm_seed_a", "mm_seed_b", "mm_seed_c", "mm_seed_d"]
     log.info("Connecting to mm2 nodes")
     proxies = init_connection("RPC_PASSWORD", mm_nodes)
     electrums_base = ["node.sirseven.me:15001", "node.sirseven.me:25001"]

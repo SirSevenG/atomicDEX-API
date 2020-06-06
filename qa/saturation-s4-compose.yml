@@ -18,7 +18,7 @@ services:
     depends_on:
       - mm_a
       - mm_b
-    command: ["python3.8", "-m", "pytest", "saturation-s3.py", "-s", "-vv"]
+    command: ["python3.8", "-m", "pytest", "saturation-s4.py", "-s", "-vv"]
 
   mm_a:
     build:
@@ -42,7 +42,9 @@ services:
     depends_on:
       - mm_seed_a
       - mm_seed_b
-    command: ["/bin/bash", "./start_maker_s3.sh"]
+      - mm_seed_c
+      - mm_seed_d
+    command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_b:
     build:
@@ -66,7 +68,9 @@ services:
     depends_on:
       - mm_seed_a
       - mm_seed_b
-    command: ["/bin/bash", "./start_maker_s3.sh"]
+      - mm_seed_c
+      - mm_seed_d
+    command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_seed_a:
     build:
@@ -108,4 +112,46 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.16
+    command: ["/bin/bash", "./start_seed.sh"]
+
+  mm_seed_c:
+    build:
+      context: .
+      args:
+        TAG: "beta-2.0.1979"
+        CHASH: "cc20999bc"
+    environment:
+      MODE: "seednode"
+      PASSPHRASE: "Utovd1JeRZ8jKGRQgUyxrFvGKEck9danoTqZRHfB7MBXpTUqB6vr"
+    expose:
+      - "43803"
+      - "41613"
+      - "7783"
+      - "7793"
+      - "7803"
+      - "80"
+    networks:
+      mm:
+        ipv4_address: 172.23.0.14
+    command: ["/bin/bash", "./start_seed.sh"]
+
+  mm_seed_d:
+    build:
+      context: .
+      args:
+        TAG: "beta-2.0.1979"
+        CHASH: "cc20999bc"
+    environment:
+      MODE: "seednode"
+      PASSPHRASE: "Ux1uBwyR3Xs5PPJJ2Hb3aVKXdPb2oPXU4R3rky6RM6HoRKZY8SkU"
+    expose:
+      - "43803"
+      - "41613"
+      - "7783"
+      - "7793"
+      - "7803"
+      - "80"
+    networks:
+      mm:
+        ipv4_address: 172.23.0.12
     command: ["/bin/bash", "./start_seed.sh"]
