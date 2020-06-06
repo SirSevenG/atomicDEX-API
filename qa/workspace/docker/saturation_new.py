@@ -15,12 +15,12 @@ def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
     time.sleep(time_sleep)
     while check:
         for i in range(orders_broadcast):
-            log.debug("Order placing num: %s", str(i + 1))
+            log.debug("Order placing num: %s", str(i + orders_current))
             res = maker.setprice(base=coin_a, rel=coin_b, price='0.1', volume='1', cancel_previous=False)
             log.debug("Response: %s", str(res))
             assert res.get('result').get('uuid')
             time.sleep(1)
-            orders_current += i
+            orders_current += 1
         time.sleep(time_sleep)  # time to propagate orders
         maker_orders = get_orders_amount(maker, coin_a, coin_b).get('amount')
         log.info("Maker node orders available: %s", str(maker_orders))
