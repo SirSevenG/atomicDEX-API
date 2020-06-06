@@ -29,13 +29,14 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         log.info("Maker node orders available: %s", str(maker_orders))
         taker_orders = get_orders_amount(taker, coin_a, coin_b).get('amount')
         log.info("Taker node orders available: %s", str(taker_orders))
-        check = check_saturation(maker_orders, taker_orders)
-        check_str = 'passed' if check else 'failed'  # bool can not be explicitly converted to str
+        check_mt = check_saturation(maker_orders, taker_orders)
+        check_str = 'passed' if check_mt else 'failed'  # bool can not be explicitly converted to str
         log.info("Maker to Taker orders amount check: %s", str(check_str))
-        check = check_saturation(orders_broadcast, taker_orders)
-        check_str = 'passed' if check else 'failed'
+        check_st = check_saturation(orders_broadcast, taker_orders)
+        check_str = 'passed' if check_st else 'failed'
         log.info("Taker to Created orders amount check: %s", str(check_str))
         log.debug("Current total amount of broadcasted orders : %s", str(orders_current))
+        check = check_st and check_mt
     log.info("Test result. Network saturated with orders broadcasted: %s", str(orders_current))
 
 
