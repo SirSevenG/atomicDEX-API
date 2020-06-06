@@ -1,5 +1,5 @@
 from test_pylibs.test_utils import init_logs, get_orders_amount, check_saturation, enable_electrums,\
-                                   check_proxy_connection, start_mm2_node, init_connection
+                                   check_proxy_connection, start_mm2_node, init_connection, rand_item, rand_value
 import time
 import pytest
 
@@ -16,8 +16,11 @@ def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
     while check:
         for i in range(orders_broadcast):
             orders_current += 1
+            # gen new price and volume values for each swap
+            price = rand_value(0.09, 0.1)
+            volume = rand_value(0.5, 0.9)
             log.debug("Order placing num: %s", str(orders_current))
-            res = maker.setprice(base=coin_a, rel=coin_b, price='0.1', volume='1', cancel_previous=False)
+            res = maker.setprice(base=coin_a, rel=coin_b, price=price, volume=volume, cancel_previous=False)
             log.debug("Response: %s", str(res))
             assert res.get('result').get('uuid')
             time.sleep(1)

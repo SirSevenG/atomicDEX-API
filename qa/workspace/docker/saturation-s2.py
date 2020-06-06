@@ -18,7 +18,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
             # gen new price and volume values for each swap
             price = rand_value(0.09, 0.1)
             volume = rand_value(0.5, 0.9)
-            node = rand_item(maker, taker)  # select on random client node to broadcast order
+            node = rand_item([maker, taker])  # select on random client node to broadcast order
             log.debug("Order placing num: %s", str(orders_current))
             res = node.setprice(base=coin_a, rel=coin_b, price=price, volume=volume, cancel_previous=False)
             log.debug("Response: %s", str(res))
