@@ -35,7 +35,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         check = check_saturation(orders_broadcast, taker_orders)
         check_str = 'passed' if check else 'failed'
         log.info("Taker to Created orders amount check: %s", str(check_str))
-        log.debug("Test iteration finished")
+        log.debug("Current total amount of broadcasted orders : %s", str(orders_current))
     log.info("Test result. Network saturated with orders broadcasted: %s", str(orders_current))
 
 
