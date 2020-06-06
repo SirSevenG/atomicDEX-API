@@ -32,7 +32,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         check_mt = check_saturation(maker_orders, taker_orders)
         check_str = 'passed' if check_mt else 'failed'  # bool can not be explicitly converted to str
         log.info("Maker to Taker orders amount check: %s", str(check_str))
-        check_st = check_saturation(orders_broadcast, taker_orders)
+        check_st = check_saturation(taker_orders, orders_broadcast)
         check_str = 'passed' if check_st else 'failed'
         log.info("Taker to Created orders amount check: %s", str(check_str))
         log.debug("Current total amount of broadcasted orders : %s", str(orders_current))
