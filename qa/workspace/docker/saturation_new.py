@@ -4,7 +4,7 @@ import time
 import pytest
 
 
-def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object):
+def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
     time_sleep = 45
     orders_broadcast = 10
     orders_current = 0
@@ -31,7 +31,6 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
 
 
 def test_saturation():
-    """proxy: MMProxy, electrums_base: list, electrums_rel: list, base: str, rel: str"""
     log = init_logs()
     coin_a = 'WSG'
     coin_b = 'BSG'
