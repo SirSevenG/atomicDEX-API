@@ -44,7 +44,7 @@ services:
       - mm_seed_b
       - mm_seed_c
       - mm_seed_d
-    command: ["/bin/bash", "./start_maker.sh"]
+    command: ["/bin/bash", "./start_maker_s3.sh"]
 
   mm_b:
     build:
@@ -70,7 +70,7 @@ services:
       - mm_seed_b
       - mm_seed_c
       - mm_seed_d
-    command: ["/bin/bash", "./start_maker.sh"]
+    command: ["/bin/bash", "./start_maker_s3.sh"]
 
   mm_seed_a:
     build:
