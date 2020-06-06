@@ -5,9 +5,9 @@ import pytest
 
 
 def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
-    time_sleep = 45
+    time_sleep = 30
     orders_broadcast = 10
-    orders_current = 1
+    orders_current = 0
     check = True  # init "pass" value
     log.info("Entering main test loop")
     log.debug("Clearing up previous orders in %s s", str(time_sleep))
@@ -15,12 +15,12 @@ def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
     time.sleep(time_sleep)
     while check:
         for i in range(orders_broadcast):
+            orders_current += 1
             log.debug("Order placing num: %s", str(orders_current))
             res = maker.setprice(base=coin_a, rel=coin_b, price='0.1', volume='1', cancel_previous=False)
             log.debug("Response: %s", str(res))
             assert res.get('result').get('uuid')
             time.sleep(1)
-            orders_current += 1
         time.sleep(time_sleep)  # time to propagate orders
         maker_orders = get_orders_amount(maker, coin_a, coin_b).get('amount')
         log.info("Maker node orders available: %s", str(maker_orders))
