@@ -10,6 +10,15 @@ import ujson
 import logging
 
 
+def rand_value(vmin: float, vmax: float) -> str:
+    assert vmax > vmin
+    return "{0:.8f}".format(vmin + (random.random() * (vmax - vmin)))
+
+
+def rand_item(items: list) -> object:
+    return random.choice(items)
+
+
 def init_logs() -> logging:
     log = logging.getLogger(__name__)
     return log

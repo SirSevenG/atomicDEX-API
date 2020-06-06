@@ -17,7 +17,7 @@ services:
         ipv4_address: 172.23.0.10
     depends_on:
       - mm_a
-    command: ["python3.8", "-m", "pytest", "saturation_new.py", "-s", "-vv"]
+    command: ["python3.8", "-m", "pytest", "saturation_s1.py", "-s", "-vv"]
 
   mm_a:
     build:
