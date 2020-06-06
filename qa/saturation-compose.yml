@@ -43,29 +43,6 @@ services:
       - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
 
-  mm_b:
-    build:
-      context: .
-      args:
-        TAG: "beta-2.0.1979"
-        CHASH: "cc20999bc"
-    environment:
-      MODE: "maker"
-      PASSPHRASE: "Uuw5XXdTCjice4S6buknpcjJ6KQJQTw4ZHCrbeUkJXx8ESSGhfBa"
-    expose:
-      - "43803"
-      - "41613"
-      - "7783"
-      - "7793"
-      - "7803"
-      - "80"
-    networks:
-      mm:
-        ipv4_address: 172.23.0.22
-    depends_on:
-      - mm_seed
-    command: ["/bin/bash", "./start_maker.sh"]
-
   mm_seed:
     build:
       context: .

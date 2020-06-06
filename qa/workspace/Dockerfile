@@ -19,7 +19,8 @@ ENV         PACKS="python3.8 \
 RUN         apt-get update && \
             apt-get -y install -q $PACKS && \
             python3.8 -m pip install --upgrade pip && \
-            python3.8 -m pip install -r /workdir/reqs.txt
+            python3.8 -m pip install -r /workdir/reqs.txt && \
+            mkdir /log && touch /log/test.log
 
 WORKDIR     /workdir
 

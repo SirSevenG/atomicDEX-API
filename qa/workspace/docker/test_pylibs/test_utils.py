@@ -63,13 +63,9 @@ def enable_electrums(proxy: MMProxy, electrums_base: list, electrums_rel: list, 
     for electrum in electrums_rel:
         servers_rel.append({'url': electrum, 'protocol': 'TCP', "disable_cert_verification": True})
     attempt = 0
-    print(servers_base)
-    print(servers_rel)
     while attempt < 40:
-        res = proxy.electrum(coin=base, servers=servers_base)
+        proxy.electrum(coin=base, servers=servers_base)
         res2 = proxy.electrum(coin=rel, servers=servers_rel)
-        print(res)
-        print(res2)
         if not res2.get('error'):
             break
         else:
@@ -114,7 +110,6 @@ def init_connection(mm2userpass: str, mm_nodes: list) -> dict:
 def get_orders_amount(proxy: MMProxy, base: str, rel: str) -> dict:
     """Get amount of orders from node"""
     res = proxy.orderbook(base=base, rel=rel)
-    print(res)
     asks = res.get('numasks')
     bids = res.get('numbids')
     orders = {
