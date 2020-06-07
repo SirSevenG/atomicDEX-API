@@ -7,7 +7,7 @@ import pytest
 def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object):
     time_sleep = 30
     swap_uuids = []
-    swaps_to_run = 3
+    swaps_to_run = 10
     log.info("Entering main test loop")
     log.debug("Clearing up previous orders in %s s", str(time_sleep))
     maker.cancel_all_orders(cancel_by={'type': 'All'})  # reset orders
