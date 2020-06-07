@@ -15,6 +15,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.10
+    volumes:
+      - ./log:/workdir/log
     depends_on:
       - mm_a
       - mm_b
@@ -27,7 +29,8 @@ services:
         TAG: "beta-2.0.1979"
         CHASH: "cc20999bc"
     environment:
-      MODE: "maker"
+      MODE: "taker"
+      MM2_LOG: "/atomicDEX/log/MM2_taker.log"
       PASSPHRASE: "UvweTu63i8AvShpCBSjJNdVuKHqXLyBuEz3kfb6TDqouXP4AADhK"
     expose:
       - "43803"
@@ -39,6 +42,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.20
+    volumes:
+      - ./log:/atomicDEX/log
     depends_on:
       - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
@@ -51,6 +56,7 @@ services:
         CHASH: "cc20999bc"
     environment:
       MODE: "maker"
+      MM2_LOG: "/atomicDEX/log/MM2_maker.log"
       PASSPHRASE: "Uuw5XXdTCjice4S6buknpcjJ6KQJQTw4ZHCrbeUkJXx8ESSGhfBa"
     expose:
       - "43803"
@@ -62,6 +68,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.22
+    volumes:
+      - ./log:/atomicDEX/log
     depends_on:
       - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
@@ -74,6 +82,7 @@ services:
         CHASH: "cc20999bc"
     environment:
       MODE: "seednode"
+      MM2_LOG: "/atomicDEX/log/MM2_seed.log"
       PASSPHRASE: "UvQP3mudmYWjprww1YZn7SgVovvx3kPkKnXnHmPaE4uwYASzGnDF"
     expose:
       - "43803"
@@ -85,4 +94,6 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.18
+    volumes:
+      - ./log:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
