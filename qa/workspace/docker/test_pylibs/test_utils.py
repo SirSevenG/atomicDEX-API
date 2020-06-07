@@ -163,7 +163,7 @@ def komodo_setgenerate(kmd_nodes: list, user: str, passwd: str) -> bool:
     return True
 
 
-def check_for_errors(resp: dict, uuid: str):  # resp - mm2proxy response dictionary
+def check_for_errors(resp: dict, uuid: str) -> bool:  # resp - mm2proxy response dictionary
     """Prints error message and returns True if response is {"error": "error_message"}"""
     try:
         if resp.get('error') and resp.get('error') != 'swap data is not found':
