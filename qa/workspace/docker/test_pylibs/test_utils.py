@@ -166,7 +166,7 @@ def komodo_setgenerate(kmd_nodes: list, user: str, passwd: str) -> bool:
 def check_for_errors(resp: dict, uuid: str):  # resp - mm2proxy response dictionary
     """Prints error message and returns True if response is {"error": "error_message"}"""
     try:
-        if resp.get('error'):
+        if resp.get('error') and resp.get('error') != 'swap data is not found':
             print("\n error finding uuid: " + uuid + " response " + str(resp) + "resp.get(error)" +
                   str(resp.get('error')) + "\n")
             return True
@@ -200,20 +200,24 @@ def check_swap_status(swaps_dict: dict, node_proxy: MMProxy) -> dict:
             time.sleep(5)  # prevents my_swap_status method spam
             pass
         else:
-            events_list = resp.get('result').get('events')
-            for single_event in events_list:
-                event_type = single_event.get('event').get('type')
-                event_occur.append(event_type)
-                if event_type in error_events:
-                    print("swap failed uuid: " + str(uuid))
-                    swaps_dict.update({uuid: ("failed, event: " + event_type + " error: " +
-                                              single_event.get('event').get('data').get('error'))})
-                    break
-                elif event_type == 'Finished':
-                    print("swap success uuid: " + str(uuid))
-                    swaps_dict.update({uuid: 'success'})
-                else:
-                    pass
+            try:
+                events_list = resp.get('result').get('events')
+                for single_event in events_list:
+                    event_type = single_event.get('event').get('type')
+                    event_occur.append(event_type)
+                    if event_type in error_events:
+                        print("swap failed uuid: " + str(uuid))
+                        swaps_dict.update({uuid: ("failed, event: " + event_type + " error: " +
+                                                  single_event.get('event').get('data').get('error'))})
+                        break
+                    elif event_type == 'Finished':
+                        print("swap success uuid: " + str(uuid))
+                        swaps_dict.update({uuid: 'success'})
+                    else:
+                        pass
+            except (AttributeError, KeyError):
+                print("swap not found, uuid: " + str(uuid))
+                swaps_dict.update({uuid: 'not_found'})
         print("Check step: " + str(i + 1) + "\nuuid: " + str(uuid) + " event types: " + str(event_occur))
         i += 1
     return swaps_dict
