@@ -24,7 +24,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         log.debug("Response: %s", str(res))
         time.sleep(time_sleep)
         for i in range(swaps_to_run):
-            volume_to_swap = "{0:.8f}".format(((Decimal(volume1) * rand_value(0.4, 0.5)) /
+            volume_to_swap = "{0:.8f}".format(((Decimal(volume1) * Decimal(rand_value(0.4, 0.5))) /
                                                Decimal(swaps_to_run)) + Decimal(0.00777))
             resp = taker.buy(base=coin_a, rel=coin_b, price=price1, volume=volume_to_swap)
             assert not res.get('error')  # all orders should be successfully created
@@ -48,6 +48,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         swaps_to_run += step
     log.info("\nTest result: %s", str(result))
     log.info("Out of %s swaps %s finished successfully", swaps_all(result), swaps_success(result))
+    log.info("Setup: 2 clients, 1 seed node")
 
 
 def test_swaps():
