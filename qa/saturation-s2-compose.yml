@@ -15,6 +15,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.10
+    volumes:
+      - ./logs:/workdir/log
     depends_on:
       - mm_a
       - mm_b
@@ -25,6 +27,7 @@ services:
       context: .
       args:
         TAG: "beta-2.0.1979"
+        MM_LOG: /atomicDEX/log/MM2_maker.log
         CHASH: "cc20999bc"
     environment:
       MODE: "maker"
@@ -39,6 +42,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.20
+    volumes:
+      - ./logs:/atomicDEX/log
     depends_on:
       - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
@@ -48,6 +53,7 @@ services:
       context: .
       args:
         TAG: "beta-2.0.1979"
+        MM_LOG: /atomicDEX/log/MM2_maker.log
         CHASH: "cc20999bc"
     environment:
       MODE: "maker"
@@ -62,6 +68,8 @@ services:
     networks:
       mm:
         ipv4_address: 172.23.0.22
+    volumes:
+      - ./logs:/atomicDEX/log
     depends_on:
       - mm_seed
     command: ["/bin/bash", "./start_maker.sh"]
@@ -71,6 +79,7 @@ services:
       context: .
       args:
         TAG: "beta-2.0.1979"
+        MM_LOG: /atomicDEX/log/MM2_maker.log
         CHASH: "cc20999bc"
     environment:
       MODE: "seednode"
@@ -82,6 +91,8 @@ services:
       - "7793"
       - "7803"
       - "80"
+    volumes:
+      - ./logs:/atomicDEX/log
     networks:
       mm:
         ipv4_address: 172.23.0.18
