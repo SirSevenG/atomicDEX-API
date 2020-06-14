@@ -31,7 +31,7 @@ jobs:
         run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
         id: shortify_commit
 
-      - name: Run ${{ matrix.tests }}
+      - name: Prepare ${{ matrix.tests }}
         shell: bash
         run: |
           echo "Repository: ${{ steps.extract_repo.outputs.repo }}" > qa/logs/release_note.txt
@@ -43,6 +43,10 @@ jobs:
           echo "SHA=${{ steps.shortify_commit.outputs.sha_short }}" >> .env
           cp ${{ matrix.tests }}-compose.yml docker-compose.yml
           docker-compose build
+
+      - name: Run ${{ matrix.tests }}
+        shell: bash
+        run: |
           docker-compose run workspace
           docker-compose down
           tar -cvzf ${{ matrix.tests }}-logs.tar.gz logs
