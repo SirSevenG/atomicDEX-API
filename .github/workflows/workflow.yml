@@ -4,17 +4,77 @@ on: push
 
 jobs:
 
-  dummy-job:
-    name: Linux Check
-    runs-on: self-hosted 
+  test_saturation_s1:
+    name: Saturation Scenario 1
+    runs-on: ubuntu-latest
 
     steps:
-     - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-     - name: Install QT (Linux)
-       uses: jurplel/install-qt-action@v2
-       with:
-         version: '5.14.1'
-         host: 'linux'
-         target: 'desktop'
-         dir: '${{ github.workspace }}'
+      - name: Saturation Test 1
+        run: |
+          cd qa
+          cp saturation-s1-compose.yml docker-compose.yml
+          docker-compose build
+          docker-compose run workspace
+          docker-compose down
+
+  test_saturation_s2:
+    name: Saturation Scenario 2
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Saturation Test 2
+        run: |
+          cd qa
+          cp saturation-s2-compose.yml docker-compose.yml
+          docker-compose build
+          docker-compose run workspace
+          docker-compose down
+
+  test_saturation_s3:
+    name: Saturation Scenario 3
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Saturation Test 3
+        run: |
+          cd qa
+          cp saturation-s3-compose.yml docker-compose.yml
+          docker-compose build
+          docker-compose run workspace
+          docker-compose down
+
+  test_saturation_s4:
+    name: Saturation Scenario 4
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Saturation Test 4
+        run: |
+          cd qa
+          cp saturation-s4-compose.yml docker-compose.yml
+          docker-compose build
+          docker-compose run workspace
+          docker-compose down
+
+  test_swaps_s1:
+    name: Swaps Scenario 1
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Swaps Test 1
+        run: |
+          cd qa
+          cp swaps-s1-compose.yml docker-compose.yml
+          docker-compose build
+          docker-compose run workspace
+          docker-compose down
