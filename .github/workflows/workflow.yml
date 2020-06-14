@@ -21,6 +21,11 @@ jobs:
         run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF/refs\/tags\//})"
         id: extract_tag
 
+      - name: Extract Repo
+        shell: bash
+        run: echo "##[set-output name=repo;]$(echo ${GITHUB_REPOSITORY})"
+        id: extract_repo
+
       - name: Shortify commit sha
         shell: bash
         run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
@@ -29,10 +34,13 @@ jobs:
       - name: Run ${{ matrix.tests }}
         shell: bash
         run: |
-          echo
+          echo "Repository: ${{ steps.extract_repo.outputs.repo }}" > qa/logs/release_note.txt
           echo "Release: ${{ steps.extract_tag.outputs.tag }}" >> qa/logs/release_note.txt
           echo "latest_commit: ${{ steps.shortify_commit.outputs.sha_short }}" >> qa/logs/release_note.txt
           cd qa
+          echo "REPO=${{ steps.extract_repo.outputs.repo }}" > .env
+          echo "TAG=${{ steps.extract_tag.outputs.tag }}" >> .env
+          echo "SHA=${{ steps.shortify_commit.outputs.sha_short }}" >> .env
           cp ${{ matrix.tests }}-compose.yml docker-compose.yml
           docker-compose build
           docker-compose run workspace
