@@ -39,6 +39,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
         log.info("Taker to Created orders amount check: %s", str(check_str))
         log.debug("Current total amount of broadcasted orders : %s", str(orders_current))
         check = check_st and check_mt
+    log.info("Test config: 2 clinets, 2 seed nodes")
     log.info("Test result. Network saturated with orders broadcasted: %s", str(orders_current))
 
 

@@ -47,6 +47,7 @@ jobs:
       - name: Run ${{ matrix.tests }}
         shell: bash
         run: |
+          cd qa
           docker-compose run workspace
           docker-compose down
           tar -cvzf ${{ matrix.tests }}-logs.tar.gz logs

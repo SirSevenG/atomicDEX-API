@@ -30,6 +30,7 @@ def mainloop(maker: object, coin_a: str, coin_b: str, log: object):
         check = check_saturation(orders_current, maker_orders)
         check_str = 'passed' if check else 'failed'  # bool can not be explicitly converted to str
         log.info("Maker to Created orders amount check: %s", str(check_str))
+    log.info("Test config: 1 clinet, 1 seed node")
     log.info("Test result. Network saturated with orders broadcasted: %s", str(orders_current))
 
 
