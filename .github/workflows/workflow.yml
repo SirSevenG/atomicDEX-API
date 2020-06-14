@@ -9,6 +9,9 @@ jobs:
   test_saturation_s1:
     name: Saturation Scenario 1
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tests: [saturation-s1, saturation-s2, saturation-s3, saturation-s4, swaps-s1]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,29 +26,23 @@ jobs:
         run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
         id: shortify_commit
 
-      - name: Check
-        shell: bash
-        run: |
-          echo "Release: ${{ steps.extract_branch.outputs.branch }}"
-          echo "latest_commit: ${{ steps.shortify_commit.outputs.sha_short }}"
-
-      - name: Saturation Test 1
+      - name: Run ${{ matrix.tests }}
         shell: bash
         run: |
           echo "Release: ${{ steps.extract_branch.outputs.branch }}" >> qa/logs/release_note.txt
           echo "latest_commit: ${{ steps.shortify_commit.outputs.sha_short }}" >> qa/logs/release_note.txt
           cd qa
-          cp saturation-s1-compose.yml docker-compose.yml
+          cp ${{ matrix.tests }}-compose.yml docker-compose.yml
           docker-compose build
           docker-compose run workspace
           docker-compose down
-          tar -cvzf saturation-s1-logs.tar.gz logs
+          tar -cvzf ${{ matrix.tests }}-logs.tar.gz logs
 
       - name: Upload test log as artifact
         uses: actions/upload-artifact@v1
         with:
-          name: saturation-s1
-          path: ./qa/saturation-s1-logs.tar.gz
+          name: ${{ matrix.tests }}
+          path: ./qa/${{ matrix.tests }}-logs.tar.gz
 
 #  test_saturation_s2:
 #    name: Saturation Scenario 2
