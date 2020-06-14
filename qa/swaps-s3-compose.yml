@@ -46,10 +46,10 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed1
-      - mm_seed2
-      - mm_seed3
-      - mm_seed4
+      - mm_seed_a
+      - mm_seed_b
+      - mm_seed_c
+      - mm_seed_d
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_b:
@@ -75,10 +75,10 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed1
-      - mm_seed2
-      - mm_seed3
-      - mm_seed4
+      - mm_seed_a
+      - mm_seed_b
+      - mm_seed_c
+      - mm_seed_d
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_c:
@@ -104,13 +104,13 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed1
-      - mm_seed2
-      - mm_seed3
-      - mm_seed4
+      - mm_seed_a
+      - mm_seed_b
+      - mm_seed_c
+      - mm_seed_d
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
-  mm_seed1:
+  mm_seed_a:
     build:
       context: .
       args:
@@ -134,7 +134,7 @@ services:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
 
-  mm_seed2:
+  mm_seed_b:
     build:
       context: .
       args:
@@ -158,7 +158,7 @@ services:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
 
-  mm_seed3:
+  mm_seed_c:
     build:
       context: .
       args:
@@ -182,7 +182,7 @@ services:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
 
-  mm_seed4:
+  mm_seed_d:
     build:
       context: .
       args:
