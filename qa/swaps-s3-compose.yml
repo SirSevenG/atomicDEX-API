@@ -153,7 +153,7 @@ services:
       - "80"
     networks:
       mm:
-        ipv4_address: 172.23.0.18
+        ipv4_address: 172.23.0.16
     volumes:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
@@ -177,7 +177,7 @@ services:
       - "80"
     networks:
       mm:
-        ipv4_address: 172.23.0.18
+        ipv4_address: 172.23.0.14
     volumes:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
@@ -201,7 +201,7 @@ services:
       - "80"
     networks:
       mm:
-        ipv4_address: 172.23.0.18
+        ipv4_address: 172.23.0.12
     volumes:
       - ./logs:/atomicDEX/log
     command: ["/bin/bash", "./start_seed.sh"]
