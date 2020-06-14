@@ -193,10 +193,10 @@ def check_swap_status(swaps_dict: dict, node_proxy: MMProxy) -> dict:
         "TakerFeeSendFailed"
     ]
     i = 0
+    print("--\nChecking swaps status\n--")
     for uuid in swaps_dict:
         event_occur = []
         resp = node_proxy.my_swap_status(params={'uuid': uuid})
-        print("--\nChecking swaps status\n--")
         if check_for_errors(resp, uuid):  # keeps swap status "unknown"
             event_occur.append('Error_response')
             time.sleep(5)  # prevents my_swap_status method spam
