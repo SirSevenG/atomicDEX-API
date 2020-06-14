@@ -20,6 +20,7 @@ services:
     depends_on:
       - mm_a
       - mm_b
+      - mm_c
     command: ["python3.8", "-m", "pytest", "swaps_s1.py", "-s", "-vv"]
 
   mm_a:

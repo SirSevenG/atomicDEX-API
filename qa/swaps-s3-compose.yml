@@ -20,6 +20,7 @@ services:
     depends_on:
       - mm_a
       - mm_b
+      - mm_c
     command: ["python3.8", "-m", "pytest", "swaps_s1.py", "-s", "-vv"]
 
   mm_a:
@@ -45,7 +46,10 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed
+      - mm_seed1
+      - mm_seed2
+      - mm_seed3
+      - mm_seed4
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_b:
@@ -71,7 +75,10 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed
+      - mm_seed1
+      - mm_seed2
+      - mm_seed3
+      - mm_seed4
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_c:
@@ -97,7 +104,10 @@ services:
     volumes:
       - ./logs:/atomicDEX/log
     depends_on:
-      - mm_seed
+      - mm_seed1
+      - mm_seed2
+      - mm_seed3
+      - mm_seed4
     command: ["/bin/bash", "./start_maker_s4.sh"]
 
   mm_seed1:
