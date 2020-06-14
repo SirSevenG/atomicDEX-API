@@ -9,31 +9,44 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
     time_sleep = 30
     swap_uuids = []
     swaps_to_run = 10
+    step = 10
+    check = True
     log.info("Entering main test loop")
-    log.debug("Clearing up previous orders in %s s", str(time_sleep))
-    maker.cancel_all_orders(cancel_by={'type': 'All'})  # reset orders
-    taker.cancel_all_orders(cancel_by={'type': 'All'})
-    time.sleep(time_sleep)
-    price1 = rand_value(0.81, 0.995)  # gen prices and volumes for swap
-    volume1 = rand_value(0.5, 0.9)
-    volume_to_swap = "{0:.8f}".format((Decimal(volume1) * Decimal(0.9)) / swaps_to_run + Decimal(0.00777))
-    log.info("Creating maker order in %s s", str(time_sleep))
-    res = maker.setprice(base=coin_a, rel=coin_b, price=price1, volume=volume1, cancel_previous=False)
-    log.debug("Response: %s", str(res))
-    for i in range(swaps_to_run):
-        resp = taker.buy(base=coin_a, rel=coin_b, price=price1, volume=volume_to_swap)
-        assert not res.get('error')  # all orders should be successfully created
-        log.debug("Create order, number: %s\n%s", str(i + 1), str(resp))
-        if resp.get("result"):
-            swap_uuids.append((resp.get("result")).get("uuid"))
-        else:
-            swap_uuids.append((resp.get("error")))
+    while check:  # run swaps until failure occur
+        log.debug("Clearing up previous orders in %s s", str(time_sleep))
+        maker.cancel_all_orders(cancel_by={'type': 'All'})  # reset orders
+        taker.cancel_all_orders(cancel_by={'type': 'All'})
+        time.sleep(time_sleep)
+        price1 = rand_value(0.81, 0.995)  # gen prices and volumes for swap
+        volume1 = "{0:.8f}".format(Decimal(rand_value(0.1, 0.2)) * Decimal(swaps_to_run))
+        log.info("Creating maker order in %s s", str(time_sleep))
+        res = maker.setprice(base=coin_a, rel=coin_b, price=price1, volume=volume1, cancel_previous=False)
+        log.debug("Response: %s", str(res))
+        time.sleep(time_sleep)
+        for i in range(swaps_to_run):
+            volume_to_swap = "{0:.8f}".format(((Decimal(volume1) * Decimal(0.5)) /
+                                               Decimal(swaps_to_run)) + Decimal(0.00777))
+            resp = taker.buy(base=coin_a, rel=coin_b, price=price1, volume=volume_to_swap)
+            assert not res.get('error')  # all orders should be successfully created
+            log.debug("Create order, number: %s\n%s", str(i + 1), str(resp))
+            if resp.get("result"):
+                swap_uuids.append((resp.get("result")).get("uuid"))
+            else:
+                swap_uuids.append((resp.get("error")))
+            time.sleep(3)
+        log.debug("uuids: %s", str(swap_uuids))
         time.sleep(10)
-    log.debug("uuids: %s", str(swap_uuids))
-    time.sleep(10)
-    log.info("Waiting for swaps to finish")
-    result = swap_status_iterator(swap_uuids, taker)
-    log.info("Test result: %s", str(result))
+        log.info("Waiting for swaps to finish")
+        result = swap_status_iterator(swap_uuids, taker)
+        log.info("Iteration result: %s", str(result))
+        log.info("Out of %s swaps %s finished successfully", swaps_all(result), swaps_success(result))
+        if swaps_all(result) == swaps_success(result):
+            check = True
+        else:
+            check = False
+        swap_uuids = []
+        swaps_to_run += step
+    log.info("\nTest result: %s", str(result))
     log.info("Out of %s swaps %s finished successfully", swaps_all(result), swaps_success(result))
 
 
