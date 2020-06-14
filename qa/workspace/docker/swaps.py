@@ -34,7 +34,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
     log.info("Test result: %s", str(result))
 
 
-def test_saturation():
+def test_swaps():
     log = init_logs()
     coin_a = 'WSG'
     coin_b = 'BSG'
