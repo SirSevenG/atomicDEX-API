@@ -18,10 +18,10 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: Extract tag name
-        shell: bash
-        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tag/})"
-        id: get_tag
+#      - name: Extract tag name
+#        shell: bash
+#        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF/refs\/tags\//}"
+#        id: get_tag
 
       - name: Shortify commit sha
         shell: bash
@@ -30,8 +30,8 @@ jobs:
 
       - name: Saturation Test 1
         run: |
-          echo "Release: ${{ steps.get_tag.outputs.tag }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}"
-          echo "Release: ${{ steps.get_tag.outputs.tag }}" > qa/logs/release_note.txt
+          echo "branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}"
+          # echo "Release: ${{ steps.get_tag.outputs.tag }}" > qa/logs/release_note.txt
           echo "Branch: ${{ steps.shortify_commit.outputs.sha_short }}" >> qa/logs/release_note.txt
           echo "latest_commit: ${{ steps.extract_branch.outputs.branch }}" >> qa/logs/release_note.txt
           cd qa
