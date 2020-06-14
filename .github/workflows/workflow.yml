@@ -18,7 +18,7 @@ jobs:
 
       - name: Extract tag name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF/refs\/tags\//})"
+        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF/refs\/tags\//})"
         id: extract_tag
 
       - name: Shortify commit sha
@@ -29,7 +29,8 @@ jobs:
       - name: Run ${{ matrix.tests }}
         shell: bash
         run: |
-          echo "Release: ${{ steps.extract_branch.outputs.branch }}" >> qa/logs/release_note.txt
+          echo
+          echo "Release: ${{ steps.extract_tag.outputs.tag }}" >> qa/logs/release_note.txt
           echo "latest_commit: ${{ steps.shortify_commit.outputs.sha_short }}" >> qa/logs/release_note.txt
           cd qa
           cp ${{ matrix.tests }}-compose.yml docker-compose.yml
