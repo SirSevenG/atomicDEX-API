@@ -1,4 +1,5 @@
-from test_pylibs.test_utils import init_logs, enable_electrums, swap_status_iterator, init_connection, rand_value
+from test_pylibs.test_utils import init_logs, enable_electrums, swap_status_iterator, init_connection, rand_value,\
+                                   swaps_all, swaps_success
 import time
 from decimal import Decimal
 import pytest
@@ -32,6 +33,7 @@ def mainloop(maker: object, taker: object, coin_a: str, coin_b: str, log: object
     log.info("Waiting for swaps to finish")
     result = swap_status_iterator(swap_uuids, taker)
     log.info("Test result: %s", str(result))
+    log.info("Out of %s swaps %s finished successfully", swaps_all(result), swaps_success(result))
 
 
 def test_swaps():

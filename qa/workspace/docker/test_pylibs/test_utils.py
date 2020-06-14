@@ -241,3 +241,18 @@ def swap_status_iterator(uuids_list: list, node_proxy: MMProxy) -> dict:
             break
         time.sleep(20)  # check swap statuses trice per minute
     return swaps_d
+
+
+def swaps_all(swaps: dict) -> int:
+    i = 0
+    for _ in swaps:
+        i += 1
+    return i
+
+
+def swaps_success(swaps: dict) -> int:
+    i = 0
+    for key in swaps:
+        if swaps[key] == 'success':
+            i += 1
+    return i
