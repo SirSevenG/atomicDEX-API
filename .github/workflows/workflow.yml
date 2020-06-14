@@ -7,7 +7,7 @@ on:
 jobs:
 
   test_saturation_s1:
-    name: Saturation Scenario 1
+    name: Run Scenario
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,7 +18,7 @@ jobs:
 
       - name: Extract tag name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/tags/})"
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF/refs\/tags\//})"
         id: extract_tag
 
       - name: Shortify commit sha
@@ -43,91 +43,3 @@ jobs:
         with:
           name: ${{ matrix.tests }}
           path: ./qa/${{ matrix.tests }}-logs.tar.gz
-
-#  test_saturation_s2:
-#    name: Saturation Scenario 2
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Saturation Test 2
-#        run: |
-#          cd qa
-#          cp saturation-s2-compose.yml docker-compose.yml
-#          docker-compose build
-#          docker-compose run workspace
-#          docker-compose down
-#          tar -cvzf saturation-s2-logs.tar.gz logs
-#
-#      - name: Upload test log as artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: saturation-s2
-#          path: ./qa/saturation-s2-logs.tar.gz
-#
-#  test_saturation_s3:
-#    name: Saturation Scenario 3
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Saturation Test 3
-#        run: |
-#          cd qa
-#          cp saturation-s3-compose.yml docker-compose.yml
-#          docker-compose build
-#          docker-compose run workspace
-#          docker-compose down
-#          tar -cvzf saturation-s3-logs.tar.gz logs
-#
-#      - name: Upload test log as artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: saturation-s3
-#          path: ./qa/saturation-s3-logs.tar.gz
-#
-#  test_saturation_s4:
-#    name: Saturation Scenario 4
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Saturation Test 4
-#        run: |
-#          cd qa
-#          cp saturation-s4-compose.yml docker-compose.yml
-#          docker-compose build
-#          docker-compose run workspace
-#          docker-compose down
-#          tar -cvzf saturation-s4-logs.tar.gz logs
-#
-#      - name: Upload test log as artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: saturation-s4
-#          path: ./qa/saturation-s4-logs.tar.gz
-#
-#  test_swaps_s1:
-#    name: Swaps Scenario 1
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Swaps Test 1
-#        run: |
-#          cd qa
-#          cp swaps-s1-compose.yml docker-compose.yml
-#          docker-compose build
-#          docker-compose run workspace
-#          docker-compose down
-#          tar -cvzf swaps-s1-logs.tar.gz logs
-#
-#      - name: Upload test log as artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: swaps-s1
-#          path: ./qa/swaps-s1-logs.tar.gz
