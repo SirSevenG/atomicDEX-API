@@ -18,6 +18,13 @@ jobs:
           docker-compose build
           docker-compose run workspace
           docker-compose down
+          tar -cvzf saturation-s1-logs.tar.gz logs
+
+      - name: Upload test log as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: saturation-s1
+          path: ./qa/saturation-s1-logs.tar.gz
 
   test_saturation_s2:
     name: Saturation Scenario 2
@@ -33,6 +40,13 @@ jobs:
           docker-compose build
           docker-compose run workspace
           docker-compose down
+          tar -cvzf saturation-s2-logs.tar.gz logs
+
+      - name: Upload test log as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: saturation-s2
+          path: ./qa/saturation-s2-logs.tar.gz
 
   test_saturation_s3:
     name: Saturation Scenario 3
@@ -48,6 +62,13 @@ jobs:
           docker-compose build
           docker-compose run workspace
           docker-compose down
+          tar -cvzf saturation-s3-logs.tar.gz logs
+
+      - name: Upload test log as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: saturation-s3
+          path: ./qa/saturation-s3-logs.tar.gz
 
   test_saturation_s4:
     name: Saturation Scenario 4
@@ -63,6 +84,13 @@ jobs:
           docker-compose build
           docker-compose run workspace
           docker-compose down
+          tar -cvzf saturation-s4-logs.tar.gz logs
+
+      - name: Upload test log as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: saturation-s4
+          path: ./qa/saturation-s4-logs.tar.gz
 
   test_swaps_s1:
     name: Swaps Scenario 1
@@ -78,3 +106,10 @@ jobs:
           docker-compose build
           docker-compose run workspace
           docker-compose down
+          tar -cvzf swaps-s1-logs.tar.gz logs
+
+      - name: Upload test log as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: swaps-s1
+          path: ./qa/swaps-s1-logs.tar.gz
