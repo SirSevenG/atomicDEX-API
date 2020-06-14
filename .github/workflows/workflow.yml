@@ -10,31 +10,33 @@ jobs:
     name: Saturation Scenario 1
     runs-on: ubuntu-latest
 
-  - name: Extract branch name
-    shell: bash
-    run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-    id: extract_branch
-
-  - name: Extract tag name
-    id: tag
-    uses: actions/github-script@0.2.0
-    with:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
-      script: |
-        return context.payload.ref.replace(/\/refs\/tags\//, '');
-
-  - name: Shortify commit sha
-    shell: bash
-    run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
-    id: shortify_commit
-
     steps:
       - uses: actions/checkout@v2
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Extract tag name
+        id: tag
+        uses: actions/github-script@0.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            return context.payload.ref.replace(/\/refs\/tags\//, '');
+
+      - name: Shortify commit sha
+        shell: bash
+        run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
+        id: shortify_commit
+
       - name: Saturation Test 1
         run: |
-          echo " Release: ${{ steps.tag.outputs.result }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}"
-          echo " Release: ${{ steps.tag.outputs.result }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}" > qa/logs/release_note.txt
+          echo "Release: ${{ steps.tag.outputs.result }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}"
+          echo "Release: ${{ steps.tag.outputs.result }}" > qa/logs/release_note.txt
+          echo "Branch: ${{ steps.shortify_commit.outputs.sha_short }}" >> qa/logs/release_note.txt
+          echo "latest_commit: ${{ steps.extract_branch.outputs.branch }}" >> qa/logs/release_note.txt
           cd qa
           cp saturation-s1-compose.yml docker-compose.yml
           docker-compose build
