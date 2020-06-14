@@ -132,8 +132,9 @@ def get_orders_amount(proxy: MMProxy, base: str, rel: str) -> dict:
 def check_saturation(vol1: int, vol2: int) -> bool:
     """Check if percentage of orders received is acceptable"""
     acceptance = 0.95
+    volume = sorted([vol1, vol2])
     try:
-        if vol2/vol1 >= acceptance:
+        if volume[0]/volume[1] >= acceptance:
             return True
         else:
             return False
