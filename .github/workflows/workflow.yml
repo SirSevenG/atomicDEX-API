@@ -1,6 +1,8 @@
 name: atomicDex-API poist-release tests
 
-on: push
+on:
+  release:
+    types: [published]
 
 jobs:
 
@@ -8,11 +10,31 @@ jobs:
     name: Saturation Scenario 1
     runs-on: ubuntu-latest
 
+  - name: Extract branch name
+    shell: bash
+    run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+    id: extract_branch
+
+  - name: Extract tag name
+    id: tag
+    uses: actions/github-script@0.2.0
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      script: |
+        return context.payload.ref.replace(/\/refs\/tags\//, '');
+
+  - name: Shortify commit sha
+    shell: bash
+    run: echo "##[set-output name=sha_short;]$(echo ${GITHUB_SHA::9})"
+    id: shortify_commit
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Saturation Test 1
         run: |
+          echo " Release: ${{ steps.tag.outputs.result }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}"
+          echo " Release: ${{ steps.tag.outputs.result }}, branch: ${{ steps.shortify_commit.outputs.sha_short }}, latest_commit: ${{ steps.extract_branch.outputs.branch }}" > qa/logs/release_note.txt
           cd qa
           cp saturation-s1-compose.yml docker-compose.yml
           docker-compose build
@@ -26,90 +48,90 @@ jobs:
           name: saturation-s1
           path: ./qa/saturation-s1-logs.tar.gz
 
-  test_saturation_s2:
-    name: Saturation Scenario 2
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Saturation Test 2
-        run: |
-          cd qa
-          cp saturation-s2-compose.yml docker-compose.yml
-          docker-compose build
-          docker-compose run workspace
-          docker-compose down
-          tar -cvzf saturation-s2-logs.tar.gz logs
-
-      - name: Upload test log as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: saturation-s2
-          path: ./qa/saturation-s2-logs.tar.gz
-
-  test_saturation_s3:
-    name: Saturation Scenario 3
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Saturation Test 3
-        run: |
-          cd qa
-          cp saturation-s3-compose.yml docker-compose.yml
-          docker-compose build
-          docker-compose run workspace
-          docker-compose down
-          tar -cvzf saturation-s3-logs.tar.gz logs
-
-      - name: Upload test log as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: saturation-s3
-          path: ./qa/saturation-s3-logs.tar.gz
-
-  test_saturation_s4:
-    name: Saturation Scenario 4
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Saturation Test 4
-        run: |
-          cd qa
-          cp saturation-s4-compose.yml docker-compose.yml
-          docker-compose build
-          docker-compose run workspace
-          docker-compose down
-          tar -cvzf saturation-s4-logs.tar.gz logs
-
-      - name: Upload test log as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: saturation-s4
-          path: ./qa/saturation-s4-logs.tar.gz
-
-  test_swaps_s1:
-    name: Swaps Scenario 1
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Swaps Test 1
-        run: |
-          cd qa
-          cp swaps-s1-compose.yml docker-compose.yml
-          docker-compose build
-          docker-compose run workspace
-          docker-compose down
-          tar -cvzf swaps-s1-logs.tar.gz logs
-
-      - name: Upload test log as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: swaps-s1
-          path: ./qa/swaps-s1-logs.tar.gz
+#  test_saturation_s2:
+#    name: Saturation Scenario 2
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Saturation Test 2
+#        run: |
+#          cd qa
+#          cp saturation-s2-compose.yml docker-compose.yml
+#          docker-compose build
+#          docker-compose run workspace
+#          docker-compose down
+#          tar -cvzf saturation-s2-logs.tar.gz logs
+#
+#      - name: Upload test log as artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: saturation-s2
+#          path: ./qa/saturation-s2-logs.tar.gz
+#
+#  test_saturation_s3:
+#    name: Saturation Scenario 3
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Saturation Test 3
+#        run: |
+#          cd qa
+#          cp saturation-s3-compose.yml docker-compose.yml
+#          docker-compose build
+#          docker-compose run workspace
+#          docker-compose down
+#          tar -cvzf saturation-s3-logs.tar.gz logs
+#
+#      - name: Upload test log as artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: saturation-s3
+#          path: ./qa/saturation-s3-logs.tar.gz
+#
+#  test_saturation_s4:
+#    name: Saturation Scenario 4
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Saturation Test 4
+#        run: |
+#          cd qa
+#          cp saturation-s4-compose.yml docker-compose.yml
+#          docker-compose build
+#          docker-compose run workspace
+#          docker-compose down
+#          tar -cvzf saturation-s4-logs.tar.gz logs
+#
+#      - name: Upload test log as artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: saturation-s4
+#          path: ./qa/saturation-s4-logs.tar.gz
+#
+#  test_swaps_s1:
+#    name: Swaps Scenario 1
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Swaps Test 1
+#        run: |
+#          cd qa
+#          cp swaps-s1-compose.yml docker-compose.yml
+#          docker-compose build
+#          docker-compose run workspace
+#          docker-compose down
+#          tar -cvzf swaps-s1-logs.tar.gz logs
+#
+#      - name: Upload test log as artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: swaps-s1
+#          path: ./qa/swaps-s1-logs.tar.gz
