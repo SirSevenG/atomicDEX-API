@@ -32,7 +32,7 @@ services:
         CHASH: "${SHA}"
     environment:
       MM_LOG: /atomicDEX/log/MM2_taker1.log
-      PASSPHRASE: "UvweTu63i8AvShpCBSjJNdVuKHqXLyBuEz3kfb6TDqouXP4AADhK"
+      PASSPHRASE: "UvNGesEzypb9b7knjWjTT7AUxBdZk4Ti56qFp6LtwT1LimhJuqX4"
     expose:
       - "43803"
       - "41613"
@@ -58,7 +58,7 @@ services:
         CHASH: "${SHA}"
     environment:
       MM_LOG: /atomicDEX/log/MM2_maker.log
-      PASSPHRASE: "Uuw5XXdTCjice4S6buknpcjJ6KQJQTw4ZHCrbeUkJXx8ESSGhfBa"
+      PASSPHRASE: "UqwaH5ULaMSLpKNKGW1TfZZPu86eLAtZoiF3an3my9MBkqrUQgpC"
     expose:
       - "43803"
       - "41613"
@@ -84,7 +84,7 @@ services:
         CHASH: "${SHA}"
     environment:
       MM_LOG: /atomicDEX/log/MM2_taker2.log
-      PASSPHRASE: "UtMUKMU8A1Nikc86fB5X9WEfwarSfP9vBpoSRpn1tVgdtKLqMWTr"
+      PASSPHRASE: "UvRd4RVBbMX2fjUVSswFDfWLZ34RwscSZ85dL9RdDgtK6JqNs3qT"
     expose:
       - "43803"
       - "41613"
@@ -110,7 +110,7 @@ services:
         CHASH: "${SHA}"
     environment:
       MM_LOG: /atomicDEX/log/MM2_seed.log
-      PASSPHRASE: "UvQP3mudmYWjprww1YZn7SgVovvx3kPkKnXnHmPaE4uwYASzGnDF"
+      PASSPHRASE: "UqFcYkQ8Kew2ABcQBdn4J4CHkFsP8mhuexfAtkB1Kvb8xq2bbuNS"
     expose:
       - "43803"
       - "41613"
